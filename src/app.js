@@ -29,8 +29,19 @@
                 var tr = result.data.triangles;
                 var pt = result.data.points;
 
+                /**
+                 * @desc new element(triangle) witch will collect points every iteration
+                 * @property {x} name position
+                 * @property {y} name position
+                 * @property {z} name position
+                 * @property {tr} number of point
+                 */
                 var newEl = [];
+                
                 var trPosition = 0;
+                /**
+                 * @desc array of uniq points
+                 */
                 var uniqPoint = [];
 
                 for(var i=0,length=tr.length;i<length;i++){
@@ -57,13 +68,9 @@
                         points.push(newEl);
                         newEl=[];
                     }
-
                 }
-
-                drawCanvas(points);
-              
-            })
-            
+                drawCanvas(points); 
+            })   
          }
 
          function drawCanvas(points){
@@ -106,13 +113,7 @@
                     renderer.render(scene, camera);
                 };
                 render();
-
-
-
-
             }
-
-
          }
     }
 })();
