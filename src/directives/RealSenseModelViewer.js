@@ -64,47 +64,55 @@
                  * @description array of faces [{pointNumber1, pointNumber2, pointNumber3},{pointNumber4, pointNumber5, pointNumber6}]
                  */
                 var faces = [];
-                //for iteration from 0 to 3
-                var facesNumber = 0;
                 //temp object for faces
                 var faceTemp=[];
+                var pointTemp=[];
 
 
                 for(var i=0,length=tr.length;i<length;i++){
 
-
                     //make faces
                     faceTemp.push(tr[i]);
-                    facesNumber++;
-                    if(facesNumber>=3){
+                    if(!((i+1)%3)){
                         faces.push(faceTemp);
-                        facesNumber = 0;
-                        faceTemp = []
+                        faceTemp = [];
                     }
- 
-                    //make points
-                    if (uniqPoint.length<=tr[i]) {
-                        newEl.push({
-                            x:pt[trPosition],
-                            y:pt[trPosition+1],
-                            z:pt[trPosition+2],
-                            tr: tr[i]
-                        });
-                        uniqPoint.push({
-                            x:pt[trPosition],
-                            y:pt[trPosition+1],
-                            z:pt[trPosition+2],
-                            tr: tr[i]
-                        });
-                        trPosition+=3;
-                    } else {
-                        newEl.push(uniqPoint[tr[i]])
+                }
+
+                for(var i=0,length=pt.length;i<length;i++){
+                    //make faces
+                    pointTemp.push(pt[i])
+                    if(!((i+1)%3)){
+                        points.push(pointTemp);
+                        pointTemp =[];
                     }
 
-                    if (newEl.length==3) {
-                        points.push(newEl);
-                        newEl=[];
-                    }
+ 
+                    //make points
+
+
+                    // if (uniqPoint.length<=tr[i]) {
+                    //     newEl.push({
+                    //         x:pt[trPosition],
+                    //         y:pt[trPosition+1],
+                    //         z:pt[trPosition+2],
+                    //         tr: tr[i]
+                    //     });
+                    //     uniqPoint.push({
+                    //         x:pt[trPosition],
+                    //         y:pt[trPosition+1],
+                    //         z:pt[trPosition+2],
+                    //         tr: tr[i]
+                    //     });
+                    //     trPosition+=3;
+                    // } else {
+                    //     newEl.push(uniqPoint[tr[i]])
+                    // }
+
+                    // if (newEl.length==3) {
+                    //     points.push(newEl);
+                    //     newEl=[];
+                    // }
                 }
 
                 return {points:points, faces:faces};
@@ -112,7 +120,6 @@
 
 
             function drawCanvas(points, faces){
-                console.log(faces);
                         var camera, scene, renderer;
                         var geometry, material, mesh;
                         init();
@@ -126,17 +133,27 @@
 
                             scene = new THREE.Scene();
                             var newp = [];
-            
+                            var geometry = new THREE.Geometry();
                             points.forEach(function(item){
-                                var geometry = new THREE.Geometry();
-                                geometry.vertices.push(new THREE.Vector3(item[0].x, item[0].y, item[0].z));
-                                geometry.vertices.push(new THREE.Vector3(item[1].x, item[1].y, item[1].z));
-                                geometry.vertices.push(new THREE.Vector3(item[2].x, item[2].y, item[2].z));
-                                geometry.vertices.push(new THREE.Vector3(item[0].x, item[0].y, item[0].z));
-                                var material = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide, fillStyle: '#000000'});
-                                var line = new THREE.Line(geometry, material);
-                                scene.add(line)
+                                geometry.vertices.push(new THREE.Vector3(item[0], item[1], item[2]));
                             });
+                            faces.forEach(function(item){
+                                geometry.faces.push(new THREE.Face3(item[0], item[1], item[2]));
+                            });
+
+
+                            //var material = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide, fillStyle: '#000000'});
+
+                            var materials = [
+                                new THREE.MeshLambertMaterial( { opacity:0.6, color: 0x44ff44, transparent:true } ),
+                                new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } )
+                            ];
+
+                            var mesh = THREE.SceneUtils.createMultiMaterialObject(geometry,materials);
+                            scene.add(mesh);
+
+                            //var line = new THREE.Line(geometry, materials);
+                            //scene.add(line)
                             renderer = new THREE.WebGLRenderer({ alpha: true });
                             renderer.setSize(directiveWidth, directiveHeight);
 
@@ -149,7 +166,7 @@
                                 requestAnimationFrame( render );
 
                                 //scene.rotation.x += 0.1;
-                                scene.rotation.y += 0.1;
+                                scene.rotation.y += 0.01;
 
                                 renderer.render(scene, camera);
                             };
