@@ -8,7 +8,9 @@
     //realSenseModelViewer.$inject = ['scope'];
     function realSenseModelViewer() {
         // Usage:
-        //
+        //  attrs:
+        //  grid = show   - show grid
+        //  viewsource = array    - show views for each array
         // Creates:
         //
         var directive = {
@@ -23,17 +25,30 @@
         return directive;
         
         function link(scope, element, attrs) {
+            //attrs.source - var with data for visualization
+            var viewSource;
+            if(typeof attrs.viewsource != "undefined"){
+                viewSource = attrs.viewsource;
+            } else {
+                viewSource = 'Data';
+            };
 
             element[0].style.left = 0;
             element[0].style.position = 'absolute';
 
-            scope.$parent.$watch('Data', function(){
-                if(typeof scope.$parent.Data!="undefined"){
-                    if(typeof scope.$parent.Data.points!="undefined"){
-                        if(scope.$parent.Data.points.length>0){
-                            var result = scope.$parent.Data;
+            scope.$parent.$watch(viewSource, function() {
+            var viewData;
+                if(typeof attrs.viewsource != "undefined"){
+                    viewData = scope.$parent[attrs.viewsource];
+                } else {
+                    viewData = scope.$parent.Data;
+                }
+
+                if (typeof viewData != "undefined") {
+                    if (typeof viewData.points != "undefined") {
+                        if (viewData.points.length > 0) {
+                            var result = viewData;
                             var convert = convertJSON(result);
-                            console.log(convert);
                             drawCanvas(convert.points, convert.faces);
                         }
                     }
@@ -87,32 +102,6 @@
                         pointTemp =[];
                     }
 
- 
-                    //make points
-
-
-                    // if (uniqPoint.length<=tr[i]) {
-                    //     newEl.push({
-                    //         x:pt[trPosition],
-                    //         y:pt[trPosition+1],
-                    //         z:pt[trPosition+2],
-                    //         tr: tr[i]
-                    //     });
-                    //     uniqPoint.push({
-                    //         x:pt[trPosition],
-                    //         y:pt[trPosition+1],
-                    //         z:pt[trPosition+2],
-                    //         tr: tr[i]
-                    //     });
-                    //     trPosition+=3;
-                    // } else {
-                    //     newEl.push(uniqPoint[tr[i]])
-                    // }
-
-                    // if (newEl.length==3) {
-                    //     points.push(newEl);
-                    //     newEl=[];
-                    // }
                 }
 
                 return {points:points, faces:faces};
@@ -142,31 +131,61 @@
                             });
 
 
-                            //var material = new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide, fillStyle: '#000000'});
+                            var materials;
 
-                            var materials = [
-                                new THREE.MeshLambertMaterial( { opacity:0.6, color: 0x44ff44, transparent:true } ),
-                                new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } )
-                            ];
+                            //
+                            if(attrs.grid==="show"){
+                                materials = [
+                                    new THREE.MeshLambertMaterial({ opacity: 1, color: 0xe2e2e2, transparent: true }),
+                                    new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true })
+                                ];
+                            } else {
+                                materials = [
+                                    new THREE.MeshLambertMaterial({ opacity: 1, color: 0xe2e2e2, transparent: true }),
+                                    //new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true })
+                                ];
+                            }
+
+                            function lightScene(){
+                                var ambientLight = new THREE.AmbientLight(0x383838);
+                                scene.add(ambientLight);
+                                var spotLight = new THREE.SpotLight( 0xffffff, 2, 600, 0.45 );
+                                spotLight.position.set( 0, 250, 270 );
+                                spotLight.castShadow = true;
+                                scene.add( spotLight );                        
+                            }
+                            lightScene();
+
+                            geometry.computeVertexNormals();
+                            geometry.mergeVertices();
+
 
                             var mesh = THREE.SceneUtils.createMultiMaterialObject(geometry,materials);
                             scene.add(mesh);
 
-                            //var line = new THREE.Line(geometry, materials);
-                            //scene.add(line)
                             renderer = new THREE.WebGLRenderer({ alpha: true });
                             renderer.setSize(directiveWidth, directiveHeight);
 
                             element[0].appendChild(renderer.domElement);
                             renderer.render(scene, camera);
 
-
+                            var rightDirection = true;
                             //rotation cicle block
                             var render = function () {
                                 requestAnimationFrame( render );
 
-                                //scene.rotation.x += 0.1;
-                                scene.rotation.y += 0.01;
+
+                                if(rightDirection){
+                                    scene.rotation.y += 0.01;
+                                    if(scene.rotation.y>=1.2){
+                                       rightDirection = false; 
+                                    }
+                                } else {
+                                    scene.rotation.y -= 0.01;
+                                    if(scene.rotation.y<=-1.2){
+                                       rightDirection = true; 
+                                    }
+                                }
 
                                 renderer.render(scene, camera);
                             };

@@ -30,8 +30,6 @@
     }
 })();
 
-
-
 (function() {
 'use strict';
 
@@ -53,8 +51,7 @@
 
         ////////////////
         function getData() {
-            return $http.get('/src/data.json')
+            return $http.get('/src/data1.json')
          }
     }
 })();
-
