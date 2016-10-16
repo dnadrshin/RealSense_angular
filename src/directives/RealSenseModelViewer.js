@@ -167,14 +167,10 @@
                             renderer.setSize(directiveWidth, directiveHeight);
 
                             element[0].appendChild(renderer.domElement);
-
-                            
-
+                   
                             function moveFace(){
                                 var coord;
                                 var mousedown = false;
-
-
 
                                 renderer.domElement.onmousemove = function(e){
                                     if (coord&&mousedown) {
@@ -184,6 +180,11 @@
                                     }
                                     coord=e;
                                 }
+                                renderer.domElement.addEventListener('wheel', function(e){
+                                    camera.position.z = camera.position.z + e.deltaY/12;
+                                    renderer.render(scene, camera);
+                                })
+
                                 
                                 renderer.domElement.addEventListener('mousedown', function(){
                                     mousedown = true;
@@ -191,14 +192,11 @@
                                 renderer.domElement.addEventListener('mouseup', function(){
                                     mousedown = false;
                                 })
-                                //requestAnimationFrame( render );
+
+
 
                             }
 
-
-                           
-
-                            
 
                             renderer.render(scene, camera);
                             moveFace();
