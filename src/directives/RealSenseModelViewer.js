@@ -167,8 +167,41 @@
                             renderer.setSize(directiveWidth, directiveHeight);
 
                             element[0].appendChild(renderer.domElement);
-                            renderer.render(scene, camera);
 
+                            
+
+                            function moveFace(){
+                                var coord;
+                                var mousedown = false;
+
+
+
+                                renderer.domElement.onmousemove = function(e){
+                                    if (coord&&mousedown) {
+                                        scene.rotation.y = scene.rotation.y + (coord.screenX-e.screenX)/100;
+                                        scene.rotation.x = scene.rotation.x + (coord.screenY-e.screenY)/100;
+                                        renderer.render(scene, camera);
+                                    }
+                                    coord=e;
+                                }
+                                
+                                renderer.domElement.addEventListener('mousedown', function(){
+                                    mousedown = true;
+                                })
+                                renderer.domElement.addEventListener('mouseup', function(){
+                                    mousedown = false;
+                                })
+                                //requestAnimationFrame( render );
+
+                            }
+
+
+                           
+
+                            
+
+                            renderer.render(scene, camera);
+                            moveFace();
                             var rightDirection = true;
                             //rotation cicle block
                             var render = function () {
@@ -189,7 +222,7 @@
 
                                 renderer.render(scene, camera);
                             };
-                            render();
+                            //render();
                         }
                     }
         }
