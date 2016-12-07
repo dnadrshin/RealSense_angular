@@ -31,7 +31,7 @@
                 viewSource = attrs.viewsource;
             } else {
                 viewSource = 'Data';
-            };
+            }
 
             element[0].style.left = 0;
             element[0].style.position = 'absolute';
@@ -53,28 +53,15 @@
                         }
                     }
                 }
-            })
+            });
 
             function convertJSON(result){
-                var triangles = [];
+                var i;
+                var length;
                 var points = [];
                 var tr = result.triangles;
                 var pt = result.points;
 
-                /**
-                 * @desc new element(triangle) witch will collect points every iteration
-                 * @property {x} name position
-                 * @property {y} name position
-                 * @property {z} name position
-                 * @property {tr} number of point
-                 */
-                var newEl = [];
-                
-                var trPosition = 0;
-                /**
-                 * @desc array of uniq points
-                 */
-                var uniqPoint = [];
                 /**
                  * @description array of faces [{pointNumber1, pointNumber2, pointNumber3},{pointNumber4, pointNumber5, pointNumber6}]
                  */
@@ -84,8 +71,7 @@
                 var pointTemp=[];
 
 
-                for(var i=0,length=tr.length;i<length;i++){
-
+                for(i=0,length=tr.length;i<length;i++){
                     //make faces
                     faceTemp.push(tr[i]);
                     if(!((i+1)%3)){
@@ -94,9 +80,9 @@
                     }
                 }
 
-                for(var i=0,length=pt.length;i<length;i++){
+                for(i=0,length=pt.length;i<length;i++){
                     //make faces
-                    pointTemp.push(pt[i])
+                    pointTemp.push(pt[i]);
                     if(!((i+1)%3)){
                         points.push(pointTemp);
                         pointTemp =[];
@@ -110,7 +96,6 @@
 
             function drawCanvas(points, faces){
                         var camera, scene, renderer;
-                        var geometry, material, mesh;
                         init();
 
                         function init() {
@@ -121,7 +106,6 @@
                             camera.lookAt(new THREE.Vector3(0, 0, 0));
 
                             scene = new THREE.Scene();
-                            var newp = [];
                             var geometry = new THREE.Geometry();
                             points.forEach(function(item){
                                 geometry.vertices.push(new THREE.Vector3(item[0], item[1], item[2]));
@@ -179,19 +163,19 @@
                                         renderer.render(scene, camera);
                                     }
                                     coord=e;
-                                }
+                                };
                                 renderer.domElement.addEventListener('wheel', function(e){
                                     camera.position.z = camera.position.z + e.deltaY/12;
                                     renderer.render(scene, camera);
-                                })
+                                });
 
                                 
                                 renderer.domElement.addEventListener('mousedown', function(){
                                     mousedown = true;
-                                })
+                                });
                                 renderer.domElement.addEventListener('mouseup', function(){
                                     mousedown = false;
-                                })
+                                });
 
 
 

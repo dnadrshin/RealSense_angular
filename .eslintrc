@@ -1,0 +1,18 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 5,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": false
+        }
+    },
+    "globals": {
+        "angular": true,
+        "THREE": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "semi": 2,
+        "quotes": ["error", "double"],
+    }
+}
