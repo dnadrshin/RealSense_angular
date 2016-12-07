@@ -8,11 +8,12 @@
     },
     "globals": {
         "angular": true,
-        "THREE": true
+        "THREE": true,
+        "requestAnimationFrame": true
     },
     "extends": "eslint:recommended",
     "rules": {
         "semi": 2,
-        "quotes": ["error", "double"],
+        "quotes": ["error", "single"],
     }
 }

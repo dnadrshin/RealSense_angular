@@ -27,7 +27,7 @@
         function link(scope, element, attrs) {
             //attrs.source - var with data for visualization
             var viewSource;
-            if(typeof attrs.viewsource != "undefined"){
+            if(typeof attrs.viewsource != 'undefined'){
                 viewSource = attrs.viewsource;
             } else {
                 viewSource = 'Data';
@@ -38,14 +38,14 @@
 
             scope.$parent.$watch(viewSource, function() {
             var viewData;
-                if(typeof attrs.viewsource != "undefined"){
+                if(typeof attrs.viewsource != 'undefined'){
                     viewData = scope.$parent[attrs.viewsource];
                 } else {
                     viewData = scope.$parent.Data;
                 }
 
-                if (typeof viewData != "undefined") {
-                    if (typeof viewData.points != "undefined") {
+                if (typeof viewData != 'undefined') {
+                    if (typeof viewData.points != 'undefined') {
                         if (viewData.points.length > 0) {
                             var result = viewData;
                             var convert = convertJSON(result);
@@ -118,7 +118,7 @@
                             var materials;
 
                             //
-                            if(attrs.grid==="show"){
+                            if(attrs.grid==='show'){
                                 materials = [
                                     new THREE.MeshLambertMaterial({ opacity: 1, color: 0xe2e2e2, transparent: true }),
                                     new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true })
