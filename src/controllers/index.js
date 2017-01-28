@@ -13,8 +13,7 @@
         ////////////////
 
         function activate() {
-            
-            
+   
             Data.getData().then(function(result){
                 $scope.Data = result.data;
             });  
