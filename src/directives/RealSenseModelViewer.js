@@ -23,7 +23,7 @@
             }
         };
         return directive;
-        
+
         function link(scope, element, attrs) {
             //attrs.source - var with data for visualization
             var viewSource;
@@ -136,7 +136,7 @@
                                 var spotLight = new THREE.SpotLight( 0xffffff, 2, 600, 0.45 );
                                 spotLight.position.set( 0, 250, 270 );
                                 spotLight.castShadow = true;
-                                scene.add( spotLight );                        
+                                scene.add( spotLight );
                             }
                             lightScene();
 
@@ -151,7 +151,7 @@
                             renderer.setSize(directiveWidth, directiveHeight);
 
                             element[0].appendChild(renderer.domElement);
-                   
+
                             function moveFace(){
                                 var coord;
                                 var mousedown = false;
@@ -164,12 +164,12 @@
                                     }
                                     coord=e;
                                 };
+
                                 renderer.domElement.addEventListener('wheel', function(e){
                                     camera.position.z = camera.position.z + e.deltaY/12;
                                     renderer.render(scene, camera);
                                 });
 
-                                
                                 renderer.domElement.addEventListener('mousedown', function(){
                                     mousedown = true;
                                 });
@@ -189,16 +189,17 @@
                             var render = function () {
                                 requestAnimationFrame( render );
 
-
                                 if(rightDirection){
                                     scene.rotation.y += 0.01;
+
                                     if(scene.rotation.y>=1.2){
-                                       rightDirection = false; 
+                                       rightDirection = false;
                                     }
                                 } else {
                                     scene.rotation.y -= 0.01;
+
                                     if(scene.rotation.y<=-1.2){
-                                       rightDirection = true; 
+                                       rightDirection = true;
                                     }
                                 }
 
@@ -211,6 +212,6 @@
     }
     /* @ngInject */
     function ControllerController () {
-     
+
     }
 })();
