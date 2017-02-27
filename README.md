@@ -10,3 +10,4 @@ Directive watch variable from parent controller.($scope.Data - default)
 * start in browser http://127.0.0.1:3000
 
 
+![example picture](https://raw.githubusercontent.com/dnadrshin/RealSense_angular/master/view.png)
