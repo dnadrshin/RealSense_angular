@@ -6,5 +6,7 @@ Directive watch variable from parent controller.($scope.Data - default)
 ##To install
 * <code>git clone https://github.com/dnadrshin/RealSense_angular</code>
 * npm install
+* npm run start
+* start in browser http://127.0.0.1:3000
 
 
