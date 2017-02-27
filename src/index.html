@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+    <head>
+        <script src="../node_modules/angular/angular.js"></script>
+        <script src="../node_modules/three/build/three.js"></script>
+        <script src="app.js"></script>
+        <script src="/controllers/index.js"></script>
+        <script src="/services/index.js"></script>
+        <script src="/controllers/index.js"></script>
+        <script src="/directives/RealSenseModelViewer.js"></script>
+    </head>
+    <body data-ng-app="3d" style="text-align: center; font-family: sans-serif;">
+        <h1>Simple view RealSense data in AngularJS using ThreeJS.</h1>
+
+        <div ng-controller="VisualController as visio">
+            <div class="video-block" style="margin: auto; width: 600px;height: 600px; position: relative;">
+                <div
+                    style="width: 600px;
+                    height: 600px;
+                    position: absolute;
+                    top:0;
+                    background: gray;
+                    font-size: 24px;
+                    font-weight: 800;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;">
+                    VIDEO TEST
+                </div>
+                <real-sense-model-viewer></real-sense-model-viewer>
+            </div>
+        </div>
+    </body>
+</html>

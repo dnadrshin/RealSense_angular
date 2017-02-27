@@ -13,12 +13,12 @@
             getData:getData,
             elements:elements
         };
-        
+
         return service;
 
         ////////////////
         function getData() {
-            return $http.get('/src/data1.json');
+            return $http.get('data1.json');
          }
     }
 })();
